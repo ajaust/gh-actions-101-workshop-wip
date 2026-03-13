@@ -16,5 +16,11 @@ pushd "${DOWNLOAD_TEMP_FILE}"
 tar -xzf "${DOWNLOAD_TEMP_FILE}"
 mkdir -p "${ACTIONLINT_INSTALL_DIR}"
 cp actionlint "${ACTIONLINT_INSTALL_DIR}/"
-echo 'export PATH=\"${ACTIONLINT_INSTALL_DIR}:${PATH}\"' >> ~/.bashrc
 popd
+
+BASHRC="${HOME}/.bashrc"
+touch "$BASHRC"
+EXPORT_LINE='export PATH="${ACTIONLINT_INSTALL_DIR}:${PATH}"'
+if ! grep -Fxq "$EXPORT_LINE" "$BASHRC" 2>/dev/null; then
+    printf '\n# Add actionlint to PATH\n%s\n' "$EXPORT_LINE" >> "$BASHRC"
+fi
