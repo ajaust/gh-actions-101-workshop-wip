@@ -18,6 +18,7 @@ tar -xzf "${DOWNLOAD_TEMP_FILE}"
 mkdir -p "${ACTIONLINT_INSTALL_DIR}"
 cp actionlint "${ACTIONLINT_INSTALL_DIR}/"
 popd
+rm -rf "${TMPDIR}"
 
 BASHRC="${HOME}/.bashrc"
 touch "$BASHRC"
