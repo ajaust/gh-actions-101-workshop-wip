@@ -255,9 +255,10 @@ software packaging.
 
 #### Actionlint
 
+- [actionlint](https://github.com/rhysd/actionlint) is "Static checker for
+GitHub Actions workflow files"
 - [Open actionlint playground](https://rhysd.github.io/actionlint/)
 - Copy and paste our action and check for suggested improvements
-
 
 #### Conditionals
 
@@ -389,7 +390,6 @@ used to share data between jobs.
 ### Running Action within a Docker container
 
 -   [Using containerized services](https://docs.github.com/en/actions/tutorials/use-containerized-services)
-
 
 ```yaml
 jobs:

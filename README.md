@@ -19,8 +19,8 @@ Last updated: November 2025
 In order to follow the steps of this workshop you need
 
 -   A GitHub account
--   Enough credits/minutes for workflows to run. The amount of workflow minutes
-    needed for this workshop is low.
+-   Enough credits/minutes for workflows to run if you make a **private**
+repository. The amount of workflow minutes needed for this workshop is low.
 -   A copy or fork of this repository.
 
     - If you create a fork, you may want to copy all branches instead
