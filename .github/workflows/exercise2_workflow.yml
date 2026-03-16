@@ -25,12 +25,12 @@ jobs:
 
   slow_job:
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       - name: Slow job greeting
         run: echo "Hello, I'm slow_job"
       - name: "So sleepy... zzzZZZzz"
-        run: sleep 120
+        run: sleep 30
 
   waiting_job:
     runs-on: ubuntu-latest
