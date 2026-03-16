@@ -1,0 +1,38 @@
+name: Workflow of exercise 5
+run-name: Build PDFs from markdown files
+
+permissions: {}
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Group of jobs to run as part of the workflow
+jobs:
+  pdf_build_job:
+    name: Job building PDFs from markdown files
+    runs-on: ubuntu-latest
+    container: pandoc/extra
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build exercise PDF
+        run: pandoc --template eisvogel exercises.md -o exercises.pdf
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: exercise sheet
+          path: exercises.pdf
+          retention-days: 1
+
+      - name: Build slides PDF
+        run: pandoc -t beamer slides.md -o slides.pdf
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: slides
+          path: slides.pdf
+          retention-days: 1
