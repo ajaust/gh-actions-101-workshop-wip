@@ -51,8 +51,8 @@ directory with the following content
     In case you use a terminal:
 
     ```bash
-    git add first_workflow.yml
-    git commit -m "My first workflow"
+    git add exercise1_workflow.yml
+    git commit -m "Add exercise 1 workflow"
     git push
     ```
 
