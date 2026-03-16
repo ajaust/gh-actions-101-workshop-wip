@@ -1,0 +1,14 @@
+name: Workflow of exercise 1
+run-name: First workflow # Optional
+
+# Events triggering the workflow
+on: [push]
+
+# Group of jobs to run as part of the workflow
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello world"
+
+
