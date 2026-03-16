@@ -116,11 +116,76 @@ for `slow_job`.
 
 -   Check the output of `waiting_job` carefully. What files are being listed?
 
+\newpage
+
+## Exercise ??: Matrix builds and conditionals
+
+Goal: Setting up a workflow with different operating systems using GitHub's
+matrix builds while using predefined actions. Use `actionlint` to find mistakes
+early.
+
+There is some very simple Python code in the repository, see `mycode.py`, that
+comes with some simple tests, see `test_mycode.py`.
+
+-   Create a new workflow `exercise3_workflow.yml`
+
+-   Carry out several tasks
+
+    1. Update pip and install the dependencies needed by the Python code`
+       ```text
+       python -m pip install --upgrade pip
+       python -m pip install -r requirements-dev.txt
+       ```
+
+    2. Add a step that checks the style of the code
+        ```text
+        python -m black mycode
+        ```
+    3. Run the test by running
+        ```text
+        python -m pytest test_mycode.py
+        ```
+
+-   The tests should be run on `windows-latest`, `macos-latest`, and
+    `ubuntu-latest`.
+-   The tests should be run on Python version 3.12, 3.13, and 3.14.
+
+\newpage
+
 ## Exercise ??: Security
 
 -   Enable CodeQL in the repository settings
 
-## Exercise ??: Creating artifacts
+-   Check the Actions section in the repository. CodeQL should run as an
+    Action/workflow.
+
+-   After the workflow finishes, you should see some warnings in the Security
+    panel of the repository.
+
+-   Add explicit permission to your workflows. Start with dropping all
+    permissions and check if the wofklow still succeeds. Only add permissions
+    if necessary.
+
+-   Verify that the security warning disappear.
+
+\newpage
+
+## Exercise ??: Creating artifacts and using Docker
+
+Goal: Create downloadable PDFs of the workshop notes.
+
+-   The can be converted to a PDF via the following command
+
+    ```text
+    pandoc --template eisvogel notes.md -o notes.pdf
+    ```
+
+-   Optional: Create a downloadable version of the slides. The slides can be
+    converted to a PDF via the following command
+
+    ```text
+    pandoc -t beamer slides.md  -o  slides.pdf
+    ```
 
 ## Exercise ??
 

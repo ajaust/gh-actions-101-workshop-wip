@@ -135,6 +135,7 @@ jobs:
 
 :::::::::::::: {.columns}
 ::: {.column width="50%"}
+
 - Common events (some with activity types)
   - `push`
   - `pull_request`
@@ -249,7 +250,96 @@ jobs:
 - No visible difference between jobs on different runners despite operating
 system
 - The content of the repository is not available to the runner (by default)
+- Jobs can run in parallel
 
+---
+
+# Strategies (matrix jobs)
+
+:::::::::::::: {.columns}
+::: {.column width="33%"}
+
+- On can use premade Actions
+- Actions in `actions/` are maintained by GitHub
+- [`actions/checkout`](https://github.com/marketplace/actions/checkout) checks
+  out the repository
+- [`actions/setup-python`](https://github.com/marketplace/actions/setup-python)
+  configures a Python version
+  - Similar actions exist for other environments, e.g., Node/Javascript etc.
+
+[Docs: Using pre-written building blocks in your
+workflow](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/find-and-customize-actions)
+[GitHub Action marketplace](https://github.com/marketplace)
+
+:::
+
+::: {.column width="67%"}
+
+```yaml
+[...]
+jobs:
+  [...]
+  run-code:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.12", "3.13", \
+                        "3.14" ]
+        os:
+          - "macos-latest"
+          - "windows-latest"
+          - "ubuntu-latest"
+```
+
+:::
+::::::::::::::
+
+---
+
+# Variables, expressions and contexts
+
+:::::::::::::: {.columns}
+::: {.column width="35%"}
+
+- Evaluate an expression using `${{ EXPRESSION }}`
+- Many contexts exists `github`, `env`, `job`, `secrets`...
+- Can be combined with conditionals `if: CONDITION`
+  - Can be used on different levels: `job`-level, `step`-level
+
+
+[Docs:
+Variables](https://docs.github.com/en/actions/reference/workflows-and-actions/variables)
+
+[Docs:
+Expressions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions)
+
+[Docs:
+Contexts](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts)
+
+:::
+::: {.column width="65%"}
+
+```yaml
+env:
+  MyVariable: "Hello world"
+[...]
+jobs:
+  [...]
+  job_id:
+    steps:
+    - run: echo "${{ env.MyVariable }}"
+    - run: echo "$MyVariable"
+    - name: Evaluate "github.action"
+      run: echo "${{ github.action }}"
+    - name: "Print matrix version"
+      if: ${{ matrix.python-version == '3.14' }}
+      run: echo "${{ matrix.python-version }}"
+```
+
+:::
+::::::::::::::
 
 ---
 
@@ -260,20 +350,26 @@ system
 
 - On can use premade Actions
 - Actions in `actions/` are maintained by GitHub
+- [`actions/checkout`](https://github.com/marketplace/actions/checkout) checks
+  out the repository
+- [`actions/setup-python`](https://github.com/marketplace/actions/setup-python)
+  configures a Python version
+  - Similar actions exist for other environments, e.g., Node/Javascript etc.
 
 [Docs: Using pre-written building blocks in your
 workflow](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/find-and-customize-actions)
+[GitHub Action marketplace](https://github.com/marketplace)
 
 :::
-
 ::: {.column width="60%"}
+
 ```yaml
 [...]
 job:
   run-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v6
         with:
@@ -284,6 +380,139 @@ job:
 
 :::
 ::::::::::::::
+
+---
+
+# Debugging GitHub workflows
+
+- Quite simple to add mistakes, quite hard to catch early
+- Hard to run actions locally, e.g, via [`act`](https://github.com/nektos/act)
+- Good solution: [actionlint](https://github.com/rhysd/actionlint) is a "Static
+  checker for GitHub Actions workflow files"
+  - Is preinstalled on our Codespace
+  - `https://github.com/nektos/act`
+- Hard to run actions locally, e.g, via [`act`](https://github.com/nektos/act)
+
+
+---
+
+# Exercise 3
+
+---
+
+# Security: Permissions
+
+Explicitly set permissions
+
+```yaml
+run-name: First workflow # Optional
+permissions: {}
+
+[...]
+run-code:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+```
+
+In our
+
+TODO: Link to presentations of AppSec team
+
+---
+
+# Security: Third-party actions
+
+```yaml
+steps:
+  - uses: actions/checkout@v5
+  - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.1.0
+    with:
+      dockerfile: Dockerfile
+```
+
+[Equinor AppSec on GitHub
+Actions](https://appsec.equinor.com/toolbox/version-control/gh-actions-runners/#github-actions-in-general)
+
+[Hadolint](https://github.com/hadolint/hadolint-action) a linter for
+Dockerfiles
+
+---
+
+# Security: Repository settings and secrets
+
+- Important sections inside the repository setttings
+  - `Actions`
+  - `Secrets`
+
+---
+
+# Costs
+
+- Let's inspect the costs panel in our GitHub account
+  - Your accounts -> Settings -> Billing and licensing
+- GitHub covers costs of public repositories
+- Equinor covers costs of Equinor repositoris
+  - **Not visible in your account**
+  TODO: Links to Andreas' presentation
+
+---
+
+# Docker containers
+
+```yaml
+jobs:
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: python:3.14-slim
+```
+
+[Docs: Using containerized
+services](https://docs.github.com/en/actions/tutorials/use-containerized-services)
+
+---
+
+# Artifacts
+
+```yaml
+  - name: "Create new file"
+    run: echo "Hello world!" >> new_file.txt
+
+  - name: "Upload Artifact"
+    uses: actions/upload-artifact@v7
+    with:
+      name: my-artifact
+      path: new_file.txt
+      retention-days: 5
+```
+
+[Docs: Workflow
+artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data)
+
+---
+
+# Exercise ??:
+
+---
+
+# Further topics
+
+- Slack integration
+- GitHub Action market place:
+  [https://github.com/marketplace](https://github.com/marketplace) and choose
+  `Actions` -> `All Actions` on the left.
+
+  - Be careful what Actions to choose. They may have access to your repository,
+    secrets etc.
+
+---
+
+# Q&A and Feedback
+
+TBD: Link to microsoft forms
 
 ---
 
@@ -497,28 +726,6 @@ job:
   - Uploads test logs as artifact
 - 20-minute hands-on challenge
 
----
-
-# Troubleshooting Tips & Common Gotchas
-- YAML indentation and syntax errors
-- Incorrect action versions or missing pins
-- Cache key collisions
-- Path issues and missing checkout
-- Secret access and permissions problems
-
----
-
-# Wrap-up & Next Steps
-- Recap: workflows, jobs, matrix, permissions, artifacts
-- Resources: notes.md (text/markdown), GitHub Actions docs, actionlint, Marketplace
-- Provide solution branch with finished examples
-
----
-
-# Q&A and Feedback
-- Questions
-- Feedback form link
-- Instructor contact / follow-up resources
 
 ---
 
