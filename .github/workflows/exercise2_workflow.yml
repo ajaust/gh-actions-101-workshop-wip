@@ -1,0 +1,43 @@
+name: Workflow of exercise 2
+run-name: Exercise 2
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Group of jobs to run as part of the workflow
+jobs:
+  ubuntu_job:
+    name: Ubuntu job with name label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ubuntu greeting
+        run: echo "Hello, I'm ubuntu-latest"
+
+  macos_job:
+    runs-on: macos-latest
+    steps:
+      - name: MacOS greeting
+        run: echo "Hello, I'm macos-latest"
+
+  slow_job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Slow job greeting
+        run: echo "Hello, I'm slow_job"
+      - name: "So sleepy... zzzZZZzz"
+        run: sleep 120
+
+  waiting_job:
+    runs-on: ubuntu-latest
+    needs: slow_job
+    steps:
+    - name: List files
+      run: ls -l
+
+
+
