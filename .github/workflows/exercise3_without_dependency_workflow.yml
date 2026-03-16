@@ -1,6 +1,8 @@
 name: Workflow of exercise 3 without dependency
 run-name: Exercise 3
 
+permissions: {}
+
 on:
   push:
     branches: [ main ]
