@@ -118,7 +118,7 @@ for `slow_job`.
 
 \newpage
 
-## Exercise ??: Matrix builds and conditionals
+## Exercise 3: Matrix builds and conditionals
 
 Goal: Setting up a workflow with different operating systems using GitHub's
 matrix builds while using predefined actions. Use `actionlint` to find mistakes
@@ -148,7 +148,12 @@ comes with some simple tests, see `test_mycode.py`.
 
 -   The tests should be run on `windows-latest`, `macos-latest`, and
     `ubuntu-latest`.
--   The tests should be run on Python version 3.12, 3.13, and 3.14.
+
+-   The tests should be run on Python version `3.12`, `3.13`, and `3.14`.
+
+-   Use `actionlint` to check your workflow file for correctness. If you don't
+    make mistaked, introduce some explicit errors to see how the actionlint
+    output looks like.
 
 \newpage
 
