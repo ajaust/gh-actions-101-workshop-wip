@@ -293,9 +293,11 @@ env:
 jobs:
   [...]
   job_id:
+    env:
+      JobVariable: "This is a job variable"
     steps:
     - run: echo "${{ env.MyVariable }}"
-    - run: echo "$MyVariable"
+    - run: echo "${MyVariable}"
     - name: Evaluate "github.action"
       run: echo "${{ github.action }}"
     - name: "Print matrix version"
@@ -305,6 +307,10 @@ jobs:
 
 :::
 ::::::::::::::
+
+---
+
+Exercise 3: Variables and secrets
 
 ---
 
@@ -361,7 +367,7 @@ job:
 
 ---
 
-# Exercise 3
+# Exercise 4
 
 ---
 
@@ -410,7 +416,7 @@ Dockerfiles
 
 ---
 
-# Exercise 4: Security
+# Exercise 5: Security
 
 ---
 
@@ -471,7 +477,7 @@ artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data)
 
 ---
 
-# Exercise 5: Creating artifacts and using Docker
+# Exercise 6: Creating artifacts and using Docker
 
 ---
 

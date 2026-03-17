@@ -124,7 +124,38 @@ checkout -b exercise2`
 
 \newpage
 
-## Exercise 3: Matrix builds and conditionals
+## Exercise 3: Variables and secrets
+
+Goal: Gain experience in using variables and secrets. Use `actionlint` to find
+mistakes early.
+
+-   Create a secret in the repository.
+
+    Settings -> Security -> Secrets and variables -> Actions -> Secrets -> Repository secret
+
+-   Create a new workflow `exercise3_workflow.yml`.
+
+-   Define some environment variable(s) in different scopes and print them
+    using the echo command.
+
+-   Print the `GITHUB_TOKEN`. You can access it via `secrets.GITHUB_TOKEN` and
+    `github.token`.
+
+-   Test out accessing the values using the Bash syntax, i.e,
+    `${VARIABLE_NAME}`, and GitHub's context syntax, i.e., `${{
+    CONTEXT.VARIABLE_NAME }}`.
+
+- Optional: Add a conditional step printing a message. This step should only be
+  executed if the value of a secret has a given value (yours to choose which
+  value). Make sure to have the `workflow_dispatch` trigger so you can test
+  this by triggering the workflow after changing the value of the secret.
+
+  Hint: `${{ secrets.SECRET_NAME }}` cannot be directly used in an `if:`
+  conditional.
+
+\newpage
+
+## Exercise 4: Matrix builds and conditionals
 
 Goal: Setting up a workflow with different operating systems using GitHub's
 matrix builds while using predefined actions. Use `actionlint` to find mistakes
@@ -133,7 +164,7 @@ early.
 There is some very simple Python code in the repository, see `mycode.py`, that
 comes with some simple tests, see `test_mycode.py`.
 
--   Create a new workflow `exercise3_workflow.yml`
+-   Create a new workflow `exercise4_workflow.yml`
 
 -   Carry out several tasks
 
@@ -167,7 +198,7 @@ comes with some simple tests, see `test_mycode.py`.
 
 \newpage
 
-## Exercise 4: Security
+## Exercise 5: Security
 
 -   Enable CodeQL in the repository settings. The setting is available under
     `Advanced Security`. Click on `Set up` -> `Default`.
@@ -198,7 +229,7 @@ comes with some simple tests, see `test_mycode.py`.
 
 \newpage
 
-## Exercise 5: Creating artifacts and using Docker
+## Exercise 6: Creating artifacts and using Docker
 
 Goal: Create downloadable PDFs of the workshop notes.
 
