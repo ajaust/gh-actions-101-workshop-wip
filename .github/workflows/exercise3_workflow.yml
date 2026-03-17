@@ -12,6 +12,13 @@ on:
 
 # Group of jobs to run as part of the workflow
 jobs:
+  secret_job:
+    if: ${{ secrets.MySecret == "alice" }}
+    name: Job runs only if the secret has a specific value
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job depensd on a secret"
+
   check_style:
     name: Ubuntu job with name label
     runs-on: ubuntu-latest
